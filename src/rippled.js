@@ -1,12 +1,12 @@
 const config = require('./config');
 const axios = require('axios');
 const moment = require('moment');
-const getXRPBalanceChanges = require('./getXRPBalanceChanges');
+const getXDVBalanceChanges = require('./getXDVBalanceChanges');
 const summarizePayChannel = require('./summarizePayChannel');
-const toXRP = require('./dropsToXRP');
+const toXDV = require('./dropsToXDV');
 
-const TIMEOUT = config.get('ripple:timeout') || 5000;
-const url = `http://${config.get('ripple:host')}:${config.get('ripple:port')}`;
+const TIMEOUT = config.get('divvy:timeout') || 5000;
+const url = `http://${config.get('divvy:host')}:${config.get('divvy:port')}`;
 const EPOCH_OFFSET = 946684800
 
 async function query(method, params) {
@@ -20,9 +20,9 @@ async function query(method, params) {
   return resp.data.result
 }
 
-module.exports.getXRPBalance = async function(account, ledger_index = 'validated') {
+module.exports.getXDVBalance = async function(account, ledger_index = 'validated') {
   const resp = await query('account_info', { account, ledger_index })
-  return toXRP(resp.account_data.Balance);
+  return toXDV(resp.account_data.Balance);
 }
 
 module.exports.getChannelHistory = async function(previousTxnID, limit = 5) {
@@ -36,11 +36,11 @@ module.exports.getChannelHistory = async function(previousTxnID, limit = 5) {
       tx_hash: rawTx.hash,
       account: rawTx.Account,
       type: rawTx.TransactionType,
-      fee: toXRP(rawTx.Fee)
+      fee: toXDV(rawTx.Fee)
     };
 
     const summary = summarizePayChannel(rawTx.meta.AffectedNodes);
-    const changes = getXRPBalanceChanges(rawTx.meta.AffectedNodes);
+    const changes = getXDVBalanceChanges(rawTx.meta.AffectedNodes);
 
     Object.assign(tx, summary.changes);
 
@@ -83,8 +83,8 @@ module.exports.getAccountChannels = async function(account, ledger_index = 'vali
       public_key: channel.PublicKey,
       source: channel.Account,
       destination: channel.Destination,
-      amount: toXRP(channel.Amount),
-      balance: toXRP(channel.Balance),
+      amount: toXDV(channel.Amount),
+      balance: toXDV(channel.Balance),
       settle_delay: channel.SettleDelay,
       cancel_after: channel.CancelAfter,
       expiration: channel.Expiration ?

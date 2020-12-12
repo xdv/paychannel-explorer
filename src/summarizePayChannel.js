@@ -1,4 +1,4 @@
-const toXRP = require('./dropsToXRP');
+const toXDV = require('./dropsToXDV');
 
 module.exports = nodes => {
   let node;
@@ -14,10 +14,10 @@ module.exports = nodes => {
 
       return {
         changes: {
-          channel_amount_change: prev.Amount ? toXRP(final.Amount, prev.Amount) : undefined,
-          channel_balance_change: final.Balance ? toXRP(final.Balance, prev.Balance) : undefined,
-          channel_final_amount: toXRP(final.Amount || 0),
-          channel_final_balance: toXRP(final.Balance || 0)
+          channel_amount_change: prev.Amount ? toXDV(final.Amount, prev.Amount) : undefined,
+          channel_balance_change: final.Balance ? toXDV(final.Balance, prev.Balance) : undefined,
+          channel_final_amount: toXDV(final.Amount || 0),
+          channel_final_balance: toXDV(final.Balance || 0)
         },
         source: final.Account,
         destination: final.Destination,

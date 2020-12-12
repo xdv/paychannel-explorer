@@ -1,8 +1,8 @@
-#### XRP Ledger Payment Channel Explorer
+#### XDV Ledger Payment Channel Explorer
 
 ```js
 getAccountChannels(account, [ledger_index]);
-getXRPBalance(account, [ledger_indx]);
+getXDVBalance(account, [ledger_indx]);
 getChannelHistory(marker, [limit=5]);
 ```
 

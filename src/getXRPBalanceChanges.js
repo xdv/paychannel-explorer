@@ -1,4 +1,4 @@
-const toXRP = require('./dropsToXRP');
+const toXDV = require('./dropsToXDV');
 
 module.exports = nodes => {
   const changes = {};
@@ -15,10 +15,10 @@ module.exports = nodes => {
       prev = node.PreviousFields || {};
 
       if (final.Balance) {
-        change = toXRP(final.Balance, prev.Balance);
+        change = toXDV(final.Balance, prev.Balance);
 
         changes[final.Account] = {
-          final_balance: toXRP(final.Balance),
+          final_balance: toXDV(final.Balance),
           change
         };
       }
