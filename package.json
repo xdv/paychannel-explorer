@@ -1,7 +1,7 @@
 {
   "name": "paychannel-explorer",
   "version": "0.0.1",
-  "description": "XDV ledger PayChannel Explorer",
+  "description": "XDV Ledger PayChannel Explorer",
   "license": "ISC",
   "scripts": {},
   "author": "Matthew Fettig",
